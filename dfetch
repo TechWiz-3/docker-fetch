@@ -1,0 +1,28 @@
+running=$(docker ps | wc -l)
+all=$(docker ps -a | wc -l)
+images=$(docker images | wc -l)
+hostname=$(hostname)
+first_char=${hostname:0:1}
+root_dir=$(sudo docker info 2>/dev/null | grep "Docker Root Dir:" | tail -n 1 | awk 'END {print $4}')
+
+if [[ "$first_char" =~ [A-Z] ]]; then
+    docker="Docker"
+else
+    docker="docker"
+fi
+
+echo "
+      .
+      ":"
+    ___:____     |"\\/"|
+  ,'        \`.    \  /
+  |  O        \___/  |
+~^~^~^~^~^~^~^~^~^~^~^~^~
+
+${docker}@${hostname}
+Total containers: ${all}
+Running containers: ${running}
+Total images: ${images}
+Root dir: ${root_dir}
+
+"
